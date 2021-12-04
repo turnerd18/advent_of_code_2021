@@ -718,16 +718,19 @@ val boardMappings = boards.map { board ->
 println(boardMappings[0])
 
 data class BoardFill(
-    val rows: List<MutableList<Int>> = (0 until 5).map{ mutableListOf<Int>() },
-    val columns: List<MutableList<Int>> = (0 until 5).map{ mutableListOf<Int>() }
+    val rows: List<MutableSet<Int>> = (0 until 5).map{ mutableSetOf<Int>() },
+    val columns: List<MutableSet<Int>> = (0 until 5).map{ mutableSetOf<Int>() }
 )
 val boardFills = boards.map { BoardFill() }
 
 data class Bingo(val lastNumber: Int, val boardNumbers: Set<Int>, val boardFill: BoardFill)
 
-fun findFirstBingo(): Bingo {
+val boardWins = mutableListOf<Int>()
+fun findBingos() = sequence {
     for (number in numbers) {
         for (i in 0 until boardMappings.size) {
+            if (i in boardWins) continue
+
             val boardMapping = boardMappings[i]
             val boardFill = boardFills[i]
             if (number in boardMapping) {
@@ -736,36 +739,26 @@ fun findFirstBingo(): Bingo {
                 val row = boardFill.rows[position.row]
                 column.add(number)
                 row.add(number)
-                if (column.size == 5 || row.size == 5) {
-                    return Bingo(number, boardMapping.keys, boardFill)
+                if ((column.size == 5 || row.size == 5) && i !in boardWins) {
+                    boardWins.add(i)
+                    yield(Bingo(number, boardMapping.keys, boardFill))
                 }
             }
         }
     }
-    throw Exception("No winner found")
+//         throw Exception("No winner found")
 }
 
-val bingo = findFirstBingo()
+val bingo = findBingos().first()
 
-val unfilledNumbers = bingo.boardNumbers - (bingo.boardFill.columns + bingo.boardFill.rows).flatten().toSet()
+var unfilledNumbers = bingo.boardNumbers - (bingo.boardFill.columns + bingo.boardFill.rows).flatten().toSet()
 
 println("Part 1: Last # ${bingo.lastNumber} | Unfilled #s $unfilledNumbers | Product ${unfilledNumbers.sum() * bingo.lastNumber}")
 
 // part 2
-//horz_pos = 0
-//depth = 0
-//var aim = 0
-//for ((direction, units) in directions) {
-//    when (direction) {
-//        "forward" -> {
-//            horz_pos += units
-//            depth += aim * units
-//        }
-//        "down" -> aim += units
-//        "up" -> aim -= units
-//    }
-//}
-//
-//println("Part 2: Depth $depth | Position $horz_pos | Product ${depth * horz_pos}")
 
+val lastBingo = findBingos().last()
 
+unfilledNumbers = lastBingo.boardNumbers - (lastBingo.boardFill.columns + lastBingo.boardFill.rows).flatten().toSet()
+
+println("Part 2: Last # ${lastBingo.lastNumber} | Unfilled #s $unfilledNumbers | Product ${unfilledNumbers.sum() * lastBingo.lastNumber}")
