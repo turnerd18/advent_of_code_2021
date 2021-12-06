@@ -1,70 +1,38 @@
+import kotlin.math.abs
+
 //val lines = arrayOf((0 to 9) to (5 to 9), (8 to 0) to (0 to 8), (9 to 4) to (3 to 4), (2 to 2) to (2 to 1), (7 to 0) to (7 to 4), (6 to 4) to (2 to 0), (0 to 9) to (2 to 9), (3 to 4) to (1 to 4), (0 to 0) to (8 to 8), (5 to 5) to (8 to 2))
 val lines = arrayOf((781 to 721) to (781 to 611), (334 to 551) to (119 to 551), (25 to 153) to (765 to 893), (588 to 619) to (588 to 683), (167 to 63) to (439 to 335), (340 to 129) to (35 to 129), (578 to 712) to (509 to 712), (855 to 426) to (855 to 649), (778 to 71) to (778 to 411), (21 to 314) to (631 to 924), (552 to 148) to (148 to 552), (531 to 889) to (789 to 889), (85 to 963) to (986 to 62), (914 to 140) to (257 to 797), (520 to 721) to (794 to 721), (49 to 936) to (960 to 25), (458 to 941) to (839 to 560), (113 to 797) to (113 to 604), (554 to 136) to (554 to 655), (112 to 208) to (112 to 504), (78 to 410) to (169 to 319), (176 to 148) to (906 to 878), (56 to 98) to (835 to 877), (538 to 981) to (178 to 621), (553 to 102) to (553 to 688), (452 to 761) to (452 to 70), (487 to 574) to (487 to 589), (356 to 406) to (154 to 406), (11 to 646) to (11 to 416), (543 to 19) to (924 to 400), (862 to 773) to (929 to 773), (292 to 901) to (292 to 97), (985 to 236) to (667 to 236), (745 to 572) to (667 to 572), (752 to 794) to (775 to 817), (269 to 649) to (269 to 198), (928 to 327) to (469 to 786), (284 to 937) to (755 to 466), (308 to 876) to (308 to 790), (201 to 94) to (988 to 881), (233 to 958) to (903 to 288), (210 to 879) to (91 to 879), (760 to 48) to (133 to 675), (55 to 79) to (956 to 980), (988 to 15) to (15 to 988), (25 to 974) to (966 to 33), (903 to 671) to (292 to 60), (587 to 770) to (403 to 954), (83 to 379) to (432 to 728), (30 to 121) to (334 to 425), (375 to 516) to (375 to 409), (72 to 370) to (72 to 152), (575 to 595) to (575 to 363), (248 to 64) to (896 to 712), (703 to 421) to (395 to 421), (66 to 978) to (977 to 67), (450 to 961) to (450 to 773), (830 to 895) to (830 to 661), (373 to 58) to (442 to 58), (739 to 383) to (739 to 712), (510 to 188) to (510 to 99), (350 to 880) to (248 to 880), (771 to 278) to (549 to 278), (266 to 434) to (266 to 838), (315 to 490) to (884 to 490), (360 to 651) to (428 to 583), (333 to 452) to (333 to 109), (313 to 414) to (713 to 14), (23 to 982) to (989 to 16), (196 to 201) to (889 to 894), (485 to 761) to (99 to 375), (288 to 918) to (50 to 680), (912 to 206) to (142 to 976), (242 to 10) to (841 to 609), (972 to 11) to (16 to 967), (859 to 142) to (390 to 611), (48 to 348) to (212 to 348), (246 to 514) to (726 to 34), (29 to 754) to (29 to 706), (617 to 296) to (224 to 689), (671 to 487) to (397 to 213), (913 to 898) to (155 to 140), (437 to 688) to (18 to 269), (150 to 150) to (869 to 869), (386 to 873) to (940 to 319), (57 to 326) to (148 to 417), (847 to 12) to (319 to 540), (741 to 640) to (520 to 640), (111 to 458) to (111 to 754), (595 to 615) to (861 to 881), (244 to 722) to (905 to 722), (323 to 394) to (323 to 304), (560 to 562) to (560 to 678), (48 to 750) to (48 to 228), (80 to 40) to (80 to 723), (730 to 839) to (191 to 300), (300 to 773) to (977 to 96), (619 to 892) to (827 to 892), (22 to 226) to (656 to 226), (125 to 968) to (125 to 637), (116 to 923) to (512 to 923), (59 to 741) to (59 to 499), (484 to 930) to (487 to 930), (362 to 175) to (362 to 778), (960 to 986) to (53 to 79), (170 to 748) to (576 to 748), (810 to 291) to (743 to 291), (761 to 924) to (339 to 502), (730 to 850) to (920 to 850), (778 to 949) to (778 to 766), (254 to 724) to (254 to 394), (685 to 177) to (685 to 441), (442 to 290) to (833 to 290), (181 to 209) to (72 to 100), (91 to 924) to (953 to 62), (318 to 880) to (318 to 659), (570 to 632) to (570 to 966), (955 to 227) to (667 to 227), (439 to 666) to (439 to 224), (276 to 385) to (276 to 56), (544 to 521) to (544 to 867), (187 to 626) to (187 to 13), (307 to 235) to (859 to 235), (759 to 416) to (668 to 416), (357 to 882) to (981 to 882), (651 to 71) to (651 to 457), (615 to 711) to (615 to 502), (474 to 162) to (305 to 162), (320 to 33) to (320 to 48), (799 to 420) to (799 to 389), (448 to 46) to (313 to 46), (925 to 141) to (925 to 928), (332 to 101) to (332 to 373), (41 to 948) to (749 to 948), (276 to 672) to (207 to 672), (315 to 736) to (86 to 736), (844 to 688) to (466 to 688), (357 to 199) to (107 to 199), (902 to 950) to (14 to 62), (277 to 251) to (923 to 251), (963 to 38) to (34 to 967), (71 to 389) to (577 to 389), (712 to 911) to (712 to 573), (186 to 976) to (148 to 938), (407 to 389) to (637 to 619), (917 to 118) to (917 to 960), (988 to 571) to (362 to 571), (845 to 941) to (189 to 285), (686 to 537) to (306 to 537), (915 to 929) to (946 to 960), (447 to 30) to (447 to 364), (832 to 833) to (832 to 888), (957 to 953) to (203 to 199), (982 to 73) to (400 to 655), (159 to 704) to (159 to 844), (284 to 347) to (159 to 347), (903 to 280) to (93 to 280), (769 to 961) to (140 to 332), (899 to 145) to (293 to 751), (850 to 643) to (148 to 643), (580 to 870) to (739 to 870), (686 to 250) to (686 to 237), (142 to 528) to (142 to 936), (827 to 224) to (827 to 287), (972 to 946) to (155 to 946), (706 to 851) to (862 to 851), (564 to 231) to (564 to 428), (511 to 662) to (511 to 752), (838 to 842) to (585 to 842), (60 to 871) to (870 to 61), (719 to 824) to (719 to 648), (183 to 232) to (936 to 985), (131 to 56) to (953 to 878), (406 to 952) to (80 to 952), (884 to 518) to (945 to 518), (427 to 439) to (662 to 439), (829 to 920) to (829 to 634), (966 to 262) to (966 to 933), (813 to 27) to (813 to 934), (784 to 101) to (784 to 160), (744 to 313) to (744 to 850), (969 to 213) to (206 to 976), (957 to 56) to (28 to 985), (312 to 620) to (312 to 680), (454 to 131) to (454 to 776), (360 to 174) to (175 to 359), (711 to 114) to (692 to 95), (452 to 839) to (938 to 839), (641 to 56) to (641 to 334), (566 to 890) to (51 to 890), (869 to 109) to (869 to 102), (119 to 36) to (119 to 796), (301 to 583) to (301 to 451), (733 to 603) to (733 to 714), (718 to 703) to (581 to 566), (709 to 513) to (915 to 513), (405 to 13) to (572 to 13), (782 to 26) to (391 to 26), (15 to 74) to (858 to 917), (975 to 978) to (38 to 41), (11 to 316) to (982 to 316), (303 to 367) to (303 to 129), (847 to 143) to (847 to 158), (856 to 687) to (856 to 870), (715 to 524) to (715 to 812), (451 to 288) to (272 to 467), (576 to 179) to (119 to 179), (10 to 623) to (10 to 44), (652 to 631) to (796 to 775), (930 to 613) to (913 to 613), (803 to 746) to (803 to 566), (306 to 602) to (306 to 137), (582 to 491) to (582 to 296), (181 to 116) to (231 to 116), (802 to 646) to (802 to 884), (75 to 623) to (75 to 424), (370 to 680) to (370 to 923), (806 to 497) to (939 to 497), (301 to 331) to (818 to 331), (912 to 916) to (27 to 31), (24 to 82) to (683 to 741), (862 to 205) to (316 to 751), (245 to 842) to (383 to 842), (544 to 946) to (518 to 920), (129 to 192) to (18 to 303), (831 to 915) to (31 to 115), (306 to 824) to (454 to 676), (851 to 341) to (125 to 341), (790 to 154) to (790 to 988), (407 to 586) to (477 to 656), (144 to 988) to (925 to 207), (264 to 391) to (264 to 466), (901 to 651) to (646 to 651), (865 to 936) to (390 to 461), (631 to 737) to (631 to 166), (103 to 939) to (937 to 105), (505 to 813) to (505 to 218), (260 to 457) to (141 to 457), (52 to 762) to (54 to 762), (26 to 95) to (889 to 958), (638 to 41) to (330 to 41), (612 to 775) to (191 to 354), (863 to 224) to (863 to 287), (674 to 87) to (674 to 110), (189 to 76) to (954 to 841), (372 to 483) to (503 to 483), (166 to 75) to (619 to 75), (938 to 983) to (18 to 63), (442 to 573) to (858 to 157), (681 to 590) to (878 to 590), (276 to 465) to (500 to 241), (644 to 703) to (651 to 710), (848 to 363) to (254 to 363), (204 to 109) to (216 to 97), (81 to 529) to (81 to 674), (74 to 44) to (978 to 948), (929 to 237) to (598 to 237), (298 to 644) to (298 to 712), (678 to 367) to (360 to 685), (413 to 27) to (413 to 799), (684 to 403) to (684 to 500), (188 to 601) to (972 to 601), (33 to 257) to (33 to 897), (278 to 299) to (278 to 635), (261 to 983) to (804 to 440), (216 to 324) to (216 to 526), (399 to 332) to (399 to 613), (826 to 702) to (826 to 332), (137 to 203) to (624 to 203), (326 to 552) to (36 to 262), (142 to 927) to (343 to 927), (21 to 330) to (410 to 719), (721 to 768) to (289 to 336), (807 to 715) to (807 to 287), (775 to 678) to (62 to 678), (771 to 10) to (491 to 10), (287 to 829) to (287 to 599), (589 to 947) to (767 to 947), (160 to 348) to (798 to 986), (699 to 264) to (108 to 855), (605 to 145) to (568 to 145), (264 to 615) to (545 to 615), (633 to 111) to (11 to 733), (589 to 886) to (589 to 897), (728 to 839) to (78 to 189), (739 to 924) to (948 to 924), (140 to 354) to (830 to 354), (619 to 662) to (332 to 662), (592 to 960) to (592 to 290), (510 to 908) to (510 to 828), (792 to 518) to (792 to 749), (148 to 20) to (832 to 704), (529 to 837) to (863 to 503), (802 to 371) to (301 to 371), (682 to 429) to (682 to 537), (885 to 918) to (38 to 71), (590 to 229) to (795 to 24), (782 to 704) to (244 to 704), (936 to 71) to (981 to 71), (27 to 272) to (27 to 253), (558 to 48) to (558 to 69), (661 to 422) to (661 to 145), (152 to 335) to (152 to 362), (516 to 407) to (26 to 407), (449 to 731) to (592 to 731), (187 to 456) to (594 to 863), (145 to 290) to (15 to 290), (667 to 213) to (214 to 666), (660 to 872) to (660 to 605), (649 to 617) to (986 to 954), (86 to 914) to (959 to 41), (895 to 967) to (24 to 96), (40 to 154) to (762 to 154), (27 to 106) to (855 to 934), (929 to 913) to (319 to 303), (749 to 314) to (387 to 676), (76 to 380) to (824 to 380), (632 to 329) to (632 to 436), (154 to 496) to (154 to 528), (127 to 958) to (127 to 613), (592 to 606) to (363 to 606), (929 to 228) to (929 to 890), (832 to 596) to (801 to 565), (824 to 978) to (134 to 978), (638 to 485) to (638 to 291), (783 to 848) to (783 to 77), (646 to 877) to (646 to 117), (461 to 279) to (850 to 668), (300 to 450) to (115 to 265), (916 to 205) to (145 to 976), (510 to 760) to (124 to 760), (884 to 668) to (884 to 153), (285 to 370) to (705 to 790), (845 to 42) to (17 to 870), (784 to 59) to (71 to 772), (627 to 268) to (333 to 562), (731 to 403) to (22 to 403), (980 to 43) to (43 to 980), (16 to 988) to (973 to 31), (720 to 881) to (300 to 881), (23 to 182) to (723 to 882), (129 to 887) to (51 to 887), (186 to 934) to (186 to 452), (114 to 815) to (39 to 815), (868 to 777) to (868 to 222), (554 to 218) to (911 to 218), (247 to 408) to (777 to 938), (391 to 69) to (285 to 69), (239 to 472) to (614 to 847), (422 to 918) to (422 to 245), (852 to 905) to (852 to 634), (631 to 164) to (17 to 778), (987 to 988) to (11 to 12), (435 to 891) to (435 to 136), (564 to 409) to (767 to 612), (611 to 508) to (611 to 535), (744 to 965) to (631 to 965), (308 to 604) to (509 to 604), (77 to 250) to (589 to 762), (505 to 950) to (685 to 950), (907 to 222) to (850 to 222), (700 to 674) to (754 to 620), (238 to 294) to (53 to 479), (875 to 130) to (875 to 544), (368 to 547) to (368 to 965), (618 to 206) to (311 to 206), (127 to 972) to (852 to 247), (561 to 192) to (982 to 613), (573 to 399) to (573 to 464), (311 to 109) to (764 to 562), (69 to 813) to (809 to 813), (195 to 594) to (317 to 594), (900 to 467) to (638 to 467), (806 to 810) to (806 to 918), (451 to 17) to (128 to 17), (93 to 837) to (878 to 52), (299 to 726) to (531 to 958), (968 to 984) to (18 to 34), (957 to 38) to (14 to 38), (283 to 583) to (32 to 332), (922 to 822) to (953 to 853), (589 to 466) to (753 to 466), (203 to 791) to (933 to 791), (122 to 739) to (778 to 83), (294 to 658) to (289 to 658), (365 to 200) to (365 to 513), (611 to 941) to (701 to 941), (927 to 111) to (107 to 931), (754 to 529) to (181 to 529), (364 to 933) to (567 to 933), (717 to 960) to (717 to 11), (612 to 472) to (612 to 807), (971 to 252) to (531 to 252), (88 to 911) to (387 to 911), (885 to 837) to (75 to 27), (222 to 289) to (714 to 781), (754 to 40) to (293 to 501), (866 to 517) to (949 to 517), (858 to 586) to (331 to 586), (157 to 21) to (731 to 595), (173 to 216) to (822 to 865), (353 to 206) to (353 to 318), (68 to 88) to (957 to 88), (370 to 645) to (200 to 815), (981 to 83) to (89 to 975), (259 to 112) to (259 to 435), (184 to 920) to (825 to 279), (252 to 357) to (252 to 56), (722 to 349) to (368 to 703), (928 to 973) to (597 to 973), (677 to 656) to (788 to 545), (222 to 766) to (527 to 461), (870 to 787) to (972 to 889), (11 to 986) to (986 to 11), (163 to 918) to (748 to 333), (111 to 75) to (823 to 75), (603 to 250) to (375 to 478), (338 to 582) to (338 to 454), (372 to 179) to (452 to 179), (571 to 96) to (571 to 723), (243 to 460) to (267 to 460), (850 to 63) to (43 to 870), (837 to 863) to (113 to 139), (21 to 886) to (709 to 198), (154 to 650) to (181 to 650), (320 to 506) to (320 to 706), (983 to 722) to (983 to 657), (830 to 225) to (190 to 865), (924 to 12) to (11 to 925), (838 to 827) to (258 to 247), (690 to 792) to (690 to 582), (465 to 658) to (146 to 977), (790 to 935) to (39 to 184), (318 to 627) to (318 to 125), (245 to 939) to (291 to 939), (803 to 219) to (254 to 768), (262 to 476) to (441 to 476), (790 to 225) to (790 to 372), (250 to 722) to (613 to 722), (368 to 326) to (368 to 474), (148 to 666) to (394 to 912), (813 to 588) to (238 to 13), (84 to 323) to (84 to 957), (566 to 716) to (822 to 716), (794 to 633) to (459 to 633), (355 to 634) to (237 to 634), (950 to 755) to (950 to 867), (292 to 696) to (340 to 696), (121 to 391) to (361 to 631), (58 to 516) to (624 to 516), (859 to 37) to (184 to 712), (686 to 819) to (428 to 819), (11 to 12) to (988 to 989), (718 to 679) to (280 to 679), (515 to 524) to (515 to 664), (136 to 459) to (136 to 56), (703 to 763) to (703 to 858), (290 to 733) to (290 to 33), (910 to 928) to (910 to 21), (570 to 937) to (570 to 808), (462 to 215) to (462 to 747), (388 to 181) to (712 to 505), (933 to 705) to (933 to 601), (605 to 492) to (188 to 492), (737 to 818) to (564 to 818), (214 to 629) to (735 to 108), (139 to 942) to (598 to 942), (708 to 187) to (541 to 187), (646 to 611) to (325 to 611), (788 to 356) to (718 to 426), (267 to 250) to (267 to 930), (94 to 819) to (94 to 191), (661 to 537) to (661 to 363), (464 to 290) to (471 to 297), (656 to 68) to (337 to 68), (31 to 515) to (797 to 515), (876 to 21) to (81 to 21), (630 to 932) to (21 to 323), (259 to 58) to (542 to 58), (703 to 523) to (703 to 949), (470 to 310) to (470 to 20), (69 to 983) to (977 to 75), (569 to 908) to (569 to 931), (645 to 718) to (645 to 665), (819 to 371) to (819 to 705), (772 to 709) to (772 to 736), (330 to 870) to (382 to 818), (982 to 317) to (982 to 778), (626 to 411) to (626 to 887), (466 to 33) to (466 to 635), (519 to 939) to (519 to 131), (402 to 253) to (402 to 300), (180 to 712) to (826 to 66), (55 to 764) to (941 to 764), (659 to 859) to (659 to 944), (346 to 374) to (346 to 500), (880 to 333) to (880 to 767), (42 to 969) to (983 to 28), (363 to 688) to (363 to 148), (645 to 880) to (265 to 500))
 
-// part 1
-val horizontalLines = mutableListOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
-val verticalLines = mutableListOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
-var maxX = 0
-var maxY = 0
-for (line in lines) {
-    if (line.first.first != line.second.first && line.first.second != line.second.second) continue
-
-    if (line.first.first == line.second.first) {
-        horizontalLines.add(line)
-    }
-    if (line.first.second == line.second.second) {
-        verticalLines.add(line)
-    }
-    if (line.first.first > maxX) maxX = line.first.first
-    if (line.second.first > maxX) maxX = line.second.first
-    if (line.first.second > maxY) maxY = line.first.second
-    if (line.second.second > maxY) maxY = line.second.second
-}
-
-//val overlaps = (0..maxX).map { (0..maxY).map { 0 }.toMutableList() }
-
-//println("${overlaps.size} ${overlaps[0].size}")
-
-//println(horizontalLines + verticalLines)
-
 val linePoints = hashSetOf<Pair<Int, Int>>()
-//var multipleOverlaps = 0
 val multipleOverlaps = hashSetOf<Pair<Int, Int>>()
-for (line in horizontalLines + verticalLines) {
-    var xMin: Int
-    var xMax: Int
-    if (line.first.first < line.second.first) {
-        xMin = line.first.first
-        xMax = line.second.first
-    } else {
-        xMin = line.second.first
-        xMax = line.first.first
-    }
 
-    var yMin: Int
-    var yMax: Int
-    if (line.first.second < line.second.second) {
-        yMin = line.first.second
-        yMax = line.second.second
-    } else {
-        yMin = line.second.second
-        yMax = line.first.second
-    }
+for (line in lines) {
+    val x1 = line.first.first
+    val x2 = line.second.first
+    val y1 = line.first.second
+    val y2 = line.second.second
+    var xDiff = abs(x1 - x2)
+    var yDiff = abs(y1 - y2)
+    val lineSlope = if (xDiff != 0) yDiff.toDouble() / xDiff else 0.0
+    if (lineSlope != 1.0 && lineSlope != 0.0) continue
 
-    for (x in xMin..xMax) {
-        for (y in yMin..yMax) {
+    val xRange = if (x1 > x2) x1 downTo x2 else x1..x2
+    val yRange = if (y1 > y2) y1 downTo y2 else y1..y2
+    for (x in xRange) {
+        for (y in yRange) {
+            xDiff = abs(x1 - x)
+            yDiff = abs(y1 - y)
+            val slope = if (xDiff != 0) yDiff.toDouble() / xDiff else 0.0
+            if (slope != lineSlope && !(x == x1 && y == y1)) continue
+//            println("line $line | slope $slope | x $x, y $y")
+
             if ((x to y) in linePoints) {
                 multipleOverlaps.add(x to y)
             } else {
                 linePoints.add(x to y)
             }
-//            overlaps[x][y] += 1
         }
     }
 }
+println("Multiple horz/vert overlaps = ${multipleOverlaps.size}")
 
-//for (column in overlaps) {
-//    println(column)
-//}
-
-println("Part 1: Multiple horz/vert overlaps = ${multipleOverlaps.size}")
