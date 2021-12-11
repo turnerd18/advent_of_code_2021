@@ -1,8 +1,6 @@
 import java.io.File
 import kotlin.math.abs
 
-data class Note(val digitPatterns: List<String>, val outputs: List<String>)
-
 val grid =
     File("./input.txt")
         .readLines()
