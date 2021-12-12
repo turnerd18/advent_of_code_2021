@@ -26,23 +26,39 @@ File("./$FILE_NAME.txt")
         if (cave2.name == "start") start = cave2
     }
 
-//data class Success()
-//data class
+var allowRevisit = false
 
-
-fun countPaths(cave: Cave, smallCaveVisits: Set<String> = setOf(), caveChain: List<String> = listOf()): Int {
+fun countPaths(
+    cave: Cave,
+    smallCaveVisits: Set<String> = setOf(),
+    didRevisitSmallCave: Boolean = false,
+    caveChain: List<String> = listOf()
+): Set<String> {
     if (cave.name == "end") {
-//      println("$caveChain | $smallCaveVisits")
-        return 1
+//        println("${caveChain.joinToString(",")},end")// | $smallCaveVisits")
+        return setOf(caveChain.joinToString(","))
     }
 
     val nextSmallVisits = if (cave.isSmall) smallCaveVisits.plus(cave.name) else smallCaveVisits
 
-    var pathsToEnd = 0
+    var paths = mutableSetOf<String>()
     for (nextCave in cave.connections.filterNot { it.name in smallCaveVisits }) {
-        pathsToEnd += countPaths(nextCave, nextSmallVisits, caveChain.plus(cave.name))
+        paths += countPaths(
+            nextCave,
+            nextSmallVisits,
+            didRevisitSmallCave,
+            caveChain.plus(cave.name)
+        )
     }
-    return pathsToEnd
+    if (allowRevisit && !didRevisitSmallCave && cave.isSmall && cave != start) {
+        for (nextCave in cave.connections.filterNot { it.name in smallCaveVisits }) {
+            paths += countPaths(nextCave, smallCaveVisits, true, caveChain.plus(cave.name))
+        }
+    }
+    return paths
 }
 
-println(countPaths(start))
+println("Part 1: ${countPaths(start).size}")
+
+allowRevisit = true
+println("Part 2: ${countPaths(start).size}")
