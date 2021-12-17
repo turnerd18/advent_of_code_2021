@@ -7,23 +7,40 @@ const val FILE = "input.txt"
 
 fun main() {
     val (template, mapping) = parseInputFile()
+    val memos = mutableMapOf<List<Any>, Map<Char, Double>>()
 
-    var nextTemplate = template
-    val x = nextTemplate[0]
-    for (step in 0 until 10) {
-        val stepTemplate = mutableListOf(nextTemplate[0])
-        for (i in 1 until nextTemplate.length) {
-            stepTemplate.add(mapping[nextTemplate[i - 1] to nextTemplate[i]]!!)
-            stepTemplate.add(nextTemplate[i])
+    fun countRec(chars: List<Char>, step: Int): Map<Char, Double> {
+        if (step == 0) return mapOf(chars[1] to 1.0)
+
+        val memoKey = listOf<Any>(*chars.toTypedArray(), step)
+        memos[memoKey]?.let { return@countRec it }
+
+        val nextChar = mapping[chars[0] to chars[1]]!!
+
+        val firstPairCounts = countRec(listOf(chars[0], nextChar), step - 1)
+        val secondPairCounts = countRec(listOf(nextChar, chars[1]), step - 1)
+
+        val letterCounts = mutableMapOf<Char, Double>()
+        for ((char, count) in firstPairCounts.entries.toList() + secondPairCounts.entries.toList()) {
+            letterCounts[char] = (letterCounts[char] ?: 0.0) + count
         }
-        nextTemplate = stepTemplate.joinToString("")
-    }
-//    println(nextTemplate)
 
-    val sortedGroupings = nextTemplate.groupBy { it }.values.sortedBy { it.size }
-    println(nextTemplate.length)
-    println(sortedGroupings.map { it.first() to it.size })
-    println("Part 1: ${sortedGroupings.last().size - sortedGroupings.first().size}")
+        memos[memoKey] = letterCounts
+        return letterCounts
+    }
+
+    val counts = mutableMapOf<Char, Double>()
+    counts[template[0]] = 1.0
+    for (i in 1 until template.length) {
+        val pairCounts = countRec(listOf(template[i - 1], template[i]), 40)
+        for ((char, count) in pairCounts) {
+            counts[char] = (counts[char] ?: 0.0) + count
+        }
+    }
+
+    val sortedGroupings = counts.values.sorted()
+    println(counts)
+    println("Part 2: ${sortedGroupings.last() - sortedGroupings.first()}")
 }
 
 data class PuzzleInput(
