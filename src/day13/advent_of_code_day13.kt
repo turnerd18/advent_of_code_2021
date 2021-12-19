@@ -48,8 +48,8 @@ fun main() {
 data class Coordinates(val x: Int, val y: Int)
 
 data class ParseResults(
-    val coordinates: List<Coordinates>,
-    val folds: List<Pair<Dimension, Int>>
+        val coordinates: List<Coordinates>,
+        val folds: List<Pair<Dimension, Int>>
 )
 
 private fun parseInputFile(): ParseResults {
